@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { PdfInputComponent } from "./pdf-input/pdf-input.component";
+import { PdfViewerComponent } from "./pdf-viewer/pdf-viewer.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, PdfInputComponent, PdfViewerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
