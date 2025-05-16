@@ -1,7 +1,6 @@
 .pdf-container {
   width: 100%;
   min-height: 500px;
-  border: 1px solid #ccc;
 
   div {
     width: 100%;
@@ -20,6 +19,10 @@
 
   button {
     margin: 0 5px;
+  }
+
+  span {
+ color: rgb(73, 73, 73);
   }
 }
 

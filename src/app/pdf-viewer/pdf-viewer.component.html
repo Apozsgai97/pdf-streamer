@@ -1,7 +1,24 @@
 @if (documentLoaded()) {
 <section class="controls">
-  <button (click)="previousPage()" [disabled]="currentPageNumber() <= 1" mat-button>Previous</button>
-  <button (click)="nextPage()" [disabled]="currentPageNumber() >= totalPages()" mat-button>Next</button>
+  <button
+    (click)="previousPage()"
+    [disabled]="currentPageNumber() <= 1"
+    mat-button
+  >
+    Previous
+  </button>
+  <span>Page {{ currentPageNumber() }} / {{ totalPages() }}</span>
+  <button
+    (click)="nextPage()"
+    [disabled]="currentPageNumber() >= totalPages()"
+    mat-button
+  >
+    Next
+  </button>
+
+  <button (click)="zoomOut()" [disabled]="scale() <= 0.5">-</button>
+  <span>Zoom: {{ scale() | number : "1.0-1" }}x</span>
+  <button (click)="zoomIn()" [disabled]="scale() >= 3">+</button>
 </section>
 }
 

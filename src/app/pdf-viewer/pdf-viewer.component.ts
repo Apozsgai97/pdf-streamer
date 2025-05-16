@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, ElementRef, signal, ViewChild } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -60,6 +60,19 @@ export class PdfViewerComponent {
   previousPage() {
     if (this.currentPageNumber() > 1) {
       this.currentPageNumber.update((n) => n - 1);
+      this.renderPage(this.currentPageNumber());
+    }
+  }
+  zoomIn() {
+    if (this.scale() < 3) {
+      this.scale.update((s) => s + 0.1);
+      this.renderPage(this.currentPageNumber());
+    }
+  }
+
+  zoomOut() {
+    if (this.scale() > 0.5) {
+      this.scale.update((s) => s - 0.1);
       this.renderPage(this.currentPageNumber());
     }
   }
