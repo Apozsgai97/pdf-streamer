@@ -9,27 +9,23 @@ import { CommonModule } from '@angular/common';
   templateUrl: './pdf-viewer.component.html',
   styleUrl: './pdf-viewer.component.scss',
 })
-export class PdfViewerComponent implements OnInit {
+export class PdfViewerComponent {
   @ViewChild('pdfContainer', { static: true })
   pdfContainer!: ElementRef<HTMLDivElement>;
   private pdfDocument: any;
   private currentPageNumber: number = 1;
   totalPages: number = 0;
 
-  
-  ngOnInit(): void {
-    this.loadPdf();
-  }
 
-  async loadPdf() {
+  async loadPdfFromBuffer(buffer: ArrayBuffer) {
     try {
-    const pdfjs = pdfjsLib as any;
-    pdfjs.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.mjs';
+      const pdfjs = pdfjsLib as any;
+      pdfjs.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.mjs';
 
-    const loadingTask = pdfjs.getDocument('assets/test.pdf');
-    this.pdfDocument = await loadingTask.promise;
-    this.totalPages = this.pdfDocument.numPages;
-    this.renderPage(this.currentPageNumber);
+      const loadingTask = pdfjs.getDocument({data: buffer});
+      this.pdfDocument = await loadingTask.promise;
+      this.totalPages = this.pdfDocument.numPages;
+      this.renderPage(this.currentPageNumber);
     } catch (error) {
       console.error('Error loading PDF:', error);
     }
@@ -51,5 +47,4 @@ export class PdfViewerComponent implements OnInit {
     };
     await page.render(renderContext).promise;
   }
-
 }
