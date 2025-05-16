@@ -35,7 +35,7 @@ export class PdfViewerComponent {
   }
   async renderPage(pageNumber: number) {
     const page = await this.pdfDocument.getPage(pageNumber);
-    const viewport = page.getViewport({ scale: 1 });
+    const viewport = page.getViewport({ scale: this.scale() });
     const container = this.pdfContainer.nativeElement;
     container.innerHTML = ''; // Clear previous content
     const canvas = document.createElement('canvas');

@@ -16,9 +16,9 @@
     Next
   </button>
 
-  <button (click)="zoomOut()" [disabled]="scale() <= 0.5">-</button>
+  <button (click)="zoomOut()" [disabled]="scale() <= 0.5" mat-icon-button>-</button>
   <span>Zoom: {{ scale() | number : "1.0-1" }}x</span>
-  <button (click)="zoomIn()" [disabled]="scale() >= 3">+</button>
+  <button (click)="zoomIn()" [disabled]="scale() >= 3" mat-icon-button>+</button>
 </section>
 }
 
