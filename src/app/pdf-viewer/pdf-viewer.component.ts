@@ -1,11 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, computed, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-pdf-viewer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule],
   templateUrl: './pdf-viewer.component.html',
   styleUrl: './pdf-viewer.component.scss',
 })
@@ -13,24 +14,25 @@ export class PdfViewerComponent {
   @ViewChild('pdfContainer', { static: true })
   pdfContainer!: ElementRef<HTMLDivElement>;
   private pdfDocument: any;
-  private currentPageNumber: number = 1;
-  totalPages: number = 0;
-
+  currentPageNumber = signal(1);
+  totalPages = signal(0);
+  scale = signal(1);
+  documentLoaded = computed(() => this.totalPages() > 0);
 
   async loadPdfFromBuffer(buffer: ArrayBuffer) {
     try {
       const pdfjs = pdfjsLib as any;
       pdfjs.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.mjs';
 
-      const loadingTask = pdfjs.getDocument({data: buffer});
+      const loadingTask = pdfjs.getDocument({ data: buffer });
       this.pdfDocument = await loadingTask.promise;
-      this.totalPages = this.pdfDocument.numPages;
-      this.renderPage(this.currentPageNumber);
+      this.totalPages.set(this.pdfDocument.numPages);
+      this.currentPageNumber.set(1);
+      this.renderPage(this.currentPageNumber());
     } catch (error) {
       console.error('Error loading PDF:', error);
     }
   }
-
   async renderPage(pageNumber: number) {
     const page = await this.pdfDocument.getPage(pageNumber);
     const viewport = page.getViewport({ scale: 1 });
@@ -49,15 +51,16 @@ export class PdfViewerComponent {
   }
 
   nextPage() {
-    if (this.currentPageNumber < this.totalPages) {
-      this.currentPageNumber++;
-      this.renderPage(this.currentPageNumber);
+    if (this.currentPageNumber() < this.totalPages()) {
+      this.currentPageNumber.update((n) => n + 1);
+      this.renderPage(this.currentPageNumber());
     }
   }
+
   previousPage() {
-    if (this.currentPageNumber > 1) {
-      this.currentPageNumber--;
-      this.renderPage(this.currentPageNumber);
+    if (this.currentPageNumber() > 1) {
+      this.currentPageNumber.update((n) => n - 1);
+      this.renderPage(this.currentPageNumber());
     }
   }
 }

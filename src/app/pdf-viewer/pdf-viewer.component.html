@@ -1,7 +1,10 @@
+@if (documentLoaded()) {
 <section class="controls">
-  <button (click)="previousPage()">Previous</button>
-  <button (click)="nextPage()">Next</button>
+  <button (click)="previousPage()" [disabled]="currentPageNumber() <= 1" mat-button>Previous</button>
+  <button (click)="nextPage()" [disabled]="currentPageNumber() >= totalPages()" mat-button>Next</button>
 </section>
+}
+
 <section class="pdf-container">
   <div #pdfContainer></div>
 </section>
