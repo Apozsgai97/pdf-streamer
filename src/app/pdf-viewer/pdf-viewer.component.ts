@@ -33,7 +33,7 @@ export class PdfViewerComponent {
 
   async renderPage(pageNumber: number) {
     const page = await this.pdfDocument.getPage(pageNumber);
-    const viewport = page.getViewport({ scale: 2 });
+    const viewport = page.getViewport({ scale: 1 });
     const container = this.pdfContainer.nativeElement;
     container.innerHTML = ''; // Clear previous content
     const canvas = document.createElement('canvas');
@@ -46,5 +46,18 @@ export class PdfViewerComponent {
       viewport: viewport,
     };
     await page.render(renderContext).promise;
+  }
+
+  nextPage() {
+    if (this.currentPageNumber < this.totalPages) {
+      this.currentPageNumber++;
+      this.renderPage(this.currentPageNumber);
+    }
+  }
+  previousPage() {
+    if (this.currentPageNumber > 1) {
+      this.currentPageNumber--;
+      this.renderPage(this.currentPageNumber);
+    }
   }
 }
