@@ -25,6 +25,7 @@ export class PdfViewerComponent {
   totalPages = signal(0);
   scale = signal(1);
   documentLoaded = computed(() => this.totalPages() > 0);
+  isTextBasedPdf = signal(false);
 
   async loadPdfFromBuffer(buffer: ArrayBuffer) {
     try {
@@ -63,25 +64,46 @@ export class PdfViewerComponent {
     pageWrapper.style.height = `${viewport.height}px`;
     container.appendChild(pageWrapper);
 
-    const canvas = document.createElement('canvas');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    pageWrapper.appendChild(canvas);
-
-    const context = canvas.getContext('2d')!;
-
-    const renderContext = {
-      canvasContext: context,
-      viewport: viewport,
-    };
-
-    await page.render(renderContext).promise;
-
     const textContent = await page.getTextContent();
 
-    if (textContent && textContent.items && textContent.items.length > 0) {
+    const hasSubstantialText =
+      textContent && textContent.items && textContent.items.length > 20;
+    this.isTextBasedPdf.set(hasSubstantialText);
+
+    if (!hasSubstantialText) {
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      canvas.className = 'pdf-canvas';
+      pageWrapper.appendChild(canvas);
+
+      const context = canvas.getContext('2d')!;
+
+      const renderContext = {
+        canvasContext: context,
+        viewport: viewport,
+      };
+
+      await page.render(renderContext).promise;
+    } else {
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      canvas.style.display = 'none'; // Hide canvas for text-heavy PDFs
+      pageWrapper.appendChild(canvas);
+
+      const context = canvas.getContext('2d')!;
+
+      const renderContext = {
+        canvasContext: context,
+        viewport: viewport,
+      };
+
+      await page.render(renderContext).promise;
+
+      // Create and style the text layer for text-based documents
       const textLayerDiv = document.createElement('div');
-      textLayerDiv.className = 'textLayer';
+      textLayerDiv.className = 'textLayer text-based';
       textLayerDiv.style.width = `${viewport.width}px`;
       textLayerDiv.style.height = `${viewport.height}px`;
       textLayerDiv.style.position = 'absolute';
