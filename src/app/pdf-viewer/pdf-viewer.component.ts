@@ -35,18 +35,30 @@ export class PdfViewerComponent {
   }
   async renderPage(pageNumber: number) {
     const page = await this.pdfDocument.getPage(pageNumber);
-    const viewport = page.getViewport({ scale: this.scale() });
+
     const container = this.pdfContainer.nativeElement;
-    container.innerHTML = ''; // Clear previous content
+    const containerWidth = container.clientWidth;
+
+    const unscaledViewport = page.getViewport({ scale: 1 });
+    const dynamicScale = containerWidth / unscaledViewport.width;
+
+    const actualScale = this.scale() === 1 ? dynamicScale : this.scale();
+
+    const viewport = page.getViewport({ scale: actualScale });
+
+    container.innerHTML = '';
     const canvas = document.createElement('canvas');
-    container.appendChild(canvas);
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext('2d')!;
     canvas.width = viewport.width;
     canvas.height = viewport.height;
+
+    container.appendChild(canvas);
+
     const renderContext = {
       canvasContext: context,
       viewport: viewport,
     };
+
     await page.render(renderContext).promise;
   }
 
