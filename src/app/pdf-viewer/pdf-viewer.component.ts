@@ -77,24 +77,26 @@ export class PdfViewerComponent {
 
     await page.render(renderContext).promise;
 
-    // Create text layer div that overlays the canvas
-    const textLayerDiv = document.createElement('div');
-    textLayerDiv.className = 'textLayer';
-    textLayerDiv.style.width = `${viewport.width}px`;
-    textLayerDiv.style.height = `${viewport.height}px`;
-    textLayerDiv.style.position = 'absolute';
-    textLayerDiv.style.top = '0';
-    textLayerDiv.style.left = '0';
-    pageWrapper.appendChild(textLayerDiv);
-
     const textContent = await page.getTextContent();
-    const textLayer = new pdfjsLib.TextLayer({
-      textContentSource: textContent,
-      container: textLayerDiv,
-      viewport: viewport,
-    });
 
-    await textLayer.render();
+    if (textContent && textContent.items && textContent.items.length > 0) {
+      const textLayerDiv = document.createElement('div');
+      textLayerDiv.className = 'textLayer';
+      textLayerDiv.style.width = `${viewport.width}px`;
+      textLayerDiv.style.height = `${viewport.height}px`;
+      textLayerDiv.style.position = 'absolute';
+      textLayerDiv.style.top = '0';
+      textLayerDiv.style.left = '0';
+      pageWrapper.appendChild(textLayerDiv);
+
+      const textLayer = new pdfjsLib.TextLayer({
+        textContentSource: textContent,
+        container: textLayerDiv,
+        viewport: viewport,
+      });
+
+      await textLayer.render();
+    }
   }
 
   nextPage() {
