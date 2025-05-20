@@ -49,11 +49,11 @@ export class PdfViewerComponent {
     const containerWidth = container.clientWidth;
 
     const unscaledViewport = page.getViewport({ scale: 1 });
-    const dynamicScale = containerWidth / unscaledViewport.width;
+    // const dynamicScale = containerWidth / unscaledViewport.width;
 
-    const actualScale = this.scale() === 1 ? dynamicScale : this.scale();
+    // const actualScale = this.scale() === 1 ? dynamicScale : this.scale();
 
-    const viewport = page.getViewport({ scale: actualScale });
+    const viewport = page.getViewport({ scale: this.scale() });
 
     container.innerHTML = '';
 
@@ -89,7 +89,7 @@ export class PdfViewerComponent {
       const canvas = document.createElement('canvas');
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-      canvas.style.display = 'none'; // Hide canvas for text-heavy PDFs
+      // canvas.style.display = 'none'; // Hide canvas for text-heavy PDFs
       pageWrapper.appendChild(canvas);
 
       const context = canvas.getContext('2d')!;
@@ -103,12 +103,15 @@ export class PdfViewerComponent {
 
       // Create and style the text layer for text-based documents
       const textLayerDiv = document.createElement('div');
+      const textHeader = document.createElement('h2');
+      textHeader.innerText = 'Abstracted Text';
+      textLayerDiv.appendChild(textHeader);
       textLayerDiv.className = 'textLayer text-based';
       textLayerDiv.style.width = `${viewport.width}px`;
       textLayerDiv.style.height = `${viewport.height}px`;
-      textLayerDiv.style.position = 'absolute';
-      textLayerDiv.style.top = '0';
-      textLayerDiv.style.left = '0';
+      // textLayerDiv.style.position = 'absolute';
+      // textLayerDiv.style.top = '0';
+      // textLayerDiv.style.left = '0';
       pageWrapper.appendChild(textLayerDiv);
 
       const textLayer = new pdfjsLib.TextLayer({
