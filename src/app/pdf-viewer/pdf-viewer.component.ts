@@ -26,6 +26,7 @@ export class PdfViewerComponent {
   scale = signal(1);
   documentLoaded = computed(() => this.totalPages() > 0);
   isTextBasedPdf = signal(false);
+  showText = signal(false);
 
   async loadPdfFromBuffer(buffer: ArrayBuffer) {
     try {
@@ -44,74 +45,25 @@ export class PdfViewerComponent {
 
   async renderPage(pageNumber: number) {
     const page = await this.pdfDocument.getPage(pageNumber);
-
     const container = this.pdfContainer.nativeElement;
-    const containerWidth = container.clientWidth;
-
-    const unscaledViewport = page.getViewport({ scale: 1 });
-    // const dynamicScale = containerWidth / unscaledViewport.width;
-
-    // const actualScale = this.scale() === 1 ? dynamicScale : this.scale();
-
-    const viewport = page.getViewport({ scale: this.scale() });
-
     container.innerHTML = '';
 
+    const viewport = page.getViewport({ scale: this.scale() });
     const pageWrapper = document.createElement('div');
     pageWrapper.className = 'pageWrapper';
-    pageWrapper.style.position = 'relative';
     pageWrapper.style.width = `${viewport.width}px`;
     pageWrapper.style.height = `${viewport.height}px`;
     container.appendChild(pageWrapper);
 
     const textContent = await page.getTextContent();
-
-    const hasSubstantialText =
-      textContent && textContent.items && textContent.items.length > 20;
+    const hasSubstantialText = textContent?.items?.length > 20;
     this.isTextBasedPdf.set(hasSubstantialText);
 
-    if (!hasSubstantialText) {
-      const canvas = document.createElement('canvas');
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      canvas.className = 'pdf-canvas';
-      pageWrapper.appendChild(canvas);
-
-      const context = canvas.getContext('2d')!;
-
-      const renderContext = {
-        canvasContext: context,
-        viewport: viewport,
-      };
-
-      await page.render(renderContext).promise;
-    } else {
-      const canvas = document.createElement('canvas');
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      // canvas.style.display = 'none'; // Hide canvas for text-heavy PDFs
-      pageWrapper.appendChild(canvas);
-
-      const context = canvas.getContext('2d')!;
-
-      const renderContext = {
-        canvasContext: context,
-        viewport: viewport,
-      };
-
-      await page.render(renderContext).promise;
-
-      // Create and style the text layer for text-based documents
+    if (this.showText() && hasSubstantialText) {
       const textLayerDiv = document.createElement('div');
-      const textHeader = document.createElement('h2');
-      textHeader.innerText = 'Abstracted Text';
-      textLayerDiv.appendChild(textHeader);
       textLayerDiv.className = 'textLayer text-based';
       textLayerDiv.style.width = `${viewport.width}px`;
       textLayerDiv.style.height = `${viewport.height}px`;
-      // textLayerDiv.style.position = 'absolute';
-      // textLayerDiv.style.top = '0';
-      // textLayerDiv.style.left = '0';
       pageWrapper.appendChild(textLayerDiv);
 
       const textLayer = new pdfjsLib.TextLayer({
@@ -121,6 +73,16 @@ export class PdfViewerComponent {
       });
 
       await textLayer.render();
+    } else {
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      canvas.className = 'pdf-canvas';
+      pageWrapper.appendChild(canvas);
+
+      const context = canvas.getContext('2d')!;
+      const renderContext = { canvasContext: context, viewport };
+      await page.render(renderContext).promise;
     }
   }
 
@@ -151,4 +113,10 @@ export class PdfViewerComponent {
       this.renderPage(this.currentPageNumber());
     }
   }
+
+  toggleTextView() {
+    this.showText.update((prev) => !prev);
+    this.renderPage(this.currentPageNumber());
+  }
 }
+

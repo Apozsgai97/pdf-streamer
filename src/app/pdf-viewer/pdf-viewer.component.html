@@ -51,6 +51,14 @@
       {{ isTextBasedPdf() ? "Text View" : "Image View" }}
     </span>
   </div>
+  <span class="separator"></span>
+  <button
+  (click)="toggleTextView()"
+  [disabled]="!isTextBasedPdf()"
+  mat-flat-button
+>
+  Abstracted Text
+</button>
 </section>
 }
 
