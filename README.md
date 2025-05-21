@@ -1,5 +1,7 @@
 # PdfStreamer
 
+<img src="/public/demo.png" alt="Demo Image of PDF Streamer" width="600"/>
+
 PDF Streamer is a lightweight Angular application that allows users to upload and interact with PDF documents directly in the browser. It supports smooth page navigation, zoom controls, and displays selectable text layers when available. 
 
 <a href="https://github.com/users/Apozsgai97/projects/7"> Check out my planning board for the project!</a>
