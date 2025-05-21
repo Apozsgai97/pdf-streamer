@@ -6,22 +6,6 @@ PDF Streamer is a lightweight Angular application that allows users to upload an
 
 <a href="https://github.com/users/Apozsgai97/projects/7"> Check out my planning board for the project!</a>
 
-## Development server
-
-### Install dependencies
-```bash
-npm install
-```
-
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-
 ## Features
 **Upload PDFs:** Users can upload PDF files directly from their computer.
 
@@ -36,13 +20,12 @@ Once the server is running, open your browser and navigate to `http://localhost:
 **Text Highlighting:** Users will be able to highlight selected text from the PDF and save their highlights for later reference.
 
 ## Tech Stack
-- **Frontend:**
-  - Next.js
-  - React
-  - Tailwind CSS
-  - PostgreSQL
-  - Drizzle
-  - Docker (for database containerization)
+  - Angular
+  - Typescript
+  - HTML
+  - CSS
+  - PDF.js
+  - Angular Material
 
 ## Technical Concepts
 **Angular Framework:** Built using Angular for a reactive and modular frontend.
@@ -54,3 +37,18 @@ Once the server is running, open your browser and navigate to `http://localhost:
 **Component Communication:** Implemented a shared service to manage communication between components.
 
 **PDF Rendering:** Integrated PDF.js (or similar) to render PDFs and access text layers.
+
+## Development server
+
+### Install dependencies
+```bash
+npm install
+```
+
+To start a local development server, run:
+
+```bash
+ng serve
+```
+
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
