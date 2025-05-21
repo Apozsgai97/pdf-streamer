@@ -1,4 +1,4 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist';
 
 @Injectable({
