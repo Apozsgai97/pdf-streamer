@@ -1,8 +1,15 @@
 # PdfStreamer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.9.
+PDF Streamer is a lightweight Angular application that allows users to upload and interact with PDF documents directly in the browser. It supports smooth page navigation, zoom controls, and displays selectable text layers when available. 
+
+<a href="https://github.com/users/Apozsgai97/projects/7"> Check out my planning board for the project!</a>
 
 ## Development server
+
+### Install dependencies
+```bash
+npm install
+```
 
 To start a local development server, run:
 
@@ -12,48 +19,36 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Features
+**Upload PDFs:** Users can upload PDF files directly from their computer.
 
-```bash
-ng generate component component-name
-```
+**Page Navigation:** Easily switch between pages in the uploaded PDF.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**Zoom In/Out:** Control the zoom level for better readability and detail.
 
-```bash
-ng generate --help
-```
+**Text Layer Support:** If the PDF contains a text layer, users can view and interact with the underlying text content.
 
-## Building
 
-To build the project run:
+## Upcoming Features
+**Text Highlighting:** Users will be able to highlight selected text from the PDF and save their highlights for later reference.
 
-```bash
-ng build
-```
+## Tech Stack
+- **Frontend:**
+  - Next.js
+  - React
+  - Tailwind CSS
+  - PostgreSQL
+  - Drizzle
+  - Docker (for database containerization)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Technical Concepts
+**Angular Framework:** Built using Angular for a reactive and modular frontend.
 
-## Running unit tests
+**Signals:** Utilized Angular signals for efficient state management.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+**Lifecycle Hooks:** Used lifecycle hooks like ViewChild and ngAfterViewInit for precise DOM and component control.
 
-```bash
-ng test
-```
+**Component Communication:** Implemented a shared service to manage communication between components.
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**PDF Rendering:** Integrated PDF.js (or similar) to render PDFs and access text layers.
