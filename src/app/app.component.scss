@@ -31,3 +31,17 @@ h1 {
   font-size: 1.5rem;
   margin: 0;
 }
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+  .container {
+    padding: 0 0.5rem;
+  }
+}
