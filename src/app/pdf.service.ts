@@ -13,7 +13,6 @@ export class PdfService {
   scale = signal(1);
   isTextBasedPdf = signal(false);
   showText = signal(false);
-  documentLoaded = computed(() => this.totalPages() > 0);
 
   setContainer(container: HTMLDivElement) {
     this.container = container;
