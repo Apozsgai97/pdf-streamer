@@ -1,22 +1,33 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .pdf-container {
- width: 100%;
- overflow-y: auto;
- 
- .pageWrapper {
-   margin: 0 auto;
-   position: relative;
- }
+  width: 100%;
+  height: calc(
+    100vh - 80px
+  ); /* Adjust this value based on your header height */
+  overflow-y: auto;
+  overflow-x: hidden;
 
- canvas {
-   max-width: 100%;
-   height: auto;
-   display: block;
- }
+  .pageWrapper {
+    margin: 0 auto;
+    position: relative;
+  }
 
- .textLayer {
-   position: absolute;
-   overflow: hidden;
-   opacity: 0.2;
-   line-height: 1.0;
- }
+  canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .textLayer {
+    position: absolute;
+    overflow: hidden;
+    opacity: 0.2;
+    line-height: 1;
+  }
 }
