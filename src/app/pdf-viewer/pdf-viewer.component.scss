@@ -7,9 +7,7 @@
 
 .pdf-container {
   width: 100%;
-  height: calc(
-    100vh - 80px
-  );
+  height: calc(100vh - 80px);
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -39,12 +37,12 @@
   .pdf-container {
     height: calc(100vh - 120px);
     overflow-x: auto;
-    display: block; 
+    display: block;
     white-space: nowrap;
 
     .pageWrapper {
       min-width: min-content;
-      display: inline-block; 
+      display: inline-block;
       white-space: normal;
     }
 

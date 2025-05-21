@@ -1,9 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { PdfService } from '../pdf.service';
 
 @Component({

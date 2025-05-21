@@ -1,48 +1,48 @@
-.controls{
- display: flex;
- justify-content: center;
- align-items: center;
- gap: 10px;
- margin: 10px;
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 10px;
 
- .control-group{
-   display: flex;
-   align-items: center;
-   gap: 10px;
- }
+  .control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
- button:disabled {
-   color: rgb(127, 127, 127);
- }
+  button:disabled {
+    color: rgb(127, 127, 127);
+  }
 
- span {
-   color: rgb(73, 73, 73);
- }
- 
- .icon-button{
-   padding: 0;
-   font-size: 1.2rem;
- }
- 
- .separator{
-   width: 1px;
-   height: 20px;
-   background-color: rgb(173, 173, 173);
-   margin: 0 10px;
- }
+  span {
+    color: rgb(73, 73, 73);
+  }
+
+  .icon-button {
+    padding: 0;
+    font-size: 1.2rem;
+  }
+
+  .separator {
+    width: 1px;
+    height: 20px;
+    background-color: rgb(173, 173, 173);
+    margin: 0 10px;
+  }
 }
 
 @media screen and (max-width: 768px) {
- .controls{
-   flex-direction: column;
-   gap: 5px;
- }
- 
- .separator{
-   display: none;
- }
- 
- .control-group{
-   padding-bottom: 0.5rem;
- }
+  .controls {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .separator {
+    display: none;
+  }
+
+  .control-group {
+    padding-bottom: 0.5rem;
+  }
 }

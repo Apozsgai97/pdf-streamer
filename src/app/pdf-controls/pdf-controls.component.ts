@@ -37,4 +37,3 @@ export class PdfControlsComponent {
     this.pdfService.toggleTextView();
   }
 }
-

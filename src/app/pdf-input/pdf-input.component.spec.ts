@@ -8,9 +8,8 @@ describe('PdfInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PdfInputComponent]
-    })
-    .compileComponents();
+      imports: [PdfInputComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PdfInputComponent);
     component = fixture.componentInstance;
