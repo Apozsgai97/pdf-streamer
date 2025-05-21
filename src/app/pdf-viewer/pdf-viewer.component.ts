@@ -1,13 +1,12 @@
 import {
   Component,
-  computed,
   ElementRef,
-  signal,
+  inject,
   ViewChild,
 } from '@angular/core';
-import * as pdfjsLib from 'pdfjs-dist';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { PdfService } from '../pdf.service';
 
 @Component({
   selector: 'app-pdf-viewer',
@@ -20,103 +19,40 @@ export class PdfViewerComponent {
   @ViewChild('pdfContainer', { static: true })
   pdfContainer!: ElementRef<HTMLDivElement>;
 
-  private pdfDocument: any;
-  currentPageNumber = signal(1);
-  totalPages = signal(0);
-  scale = signal(1);
-  documentLoaded = computed(() => this.totalPages() > 0);
-  isTextBasedPdf = signal(false);
-  showText = signal(false);
+  private pdfService = inject(PdfService);
 
-  async loadPdfFromBuffer(buffer: ArrayBuffer) {
-    try {
-      const pdfjs = pdfjsLib as any;
-      pdfjs.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.mjs';
+  currentPageNumber = this.pdfService.currentPageNumber;
+  totalPages = this.pdfService.totalPages;
+  scale = this.pdfService.scale;
+  documentLoaded = this.pdfService.documentLoaded;
+  isTextBasedPdf = this.pdfService.isTextBasedPdf;
+  showText = this.pdfService.showText;
 
-      const loadingTask = pdfjs.getDocument({ data: buffer });
-      this.pdfDocument = await loadingTask.promise;
-      this.totalPages.set(this.pdfDocument.numPages);
-      this.currentPageNumber.set(1);
-      this.renderPage(this.currentPageNumber());
-    } catch (error) {
-      console.error('Error loading PDF:', error);
-    }
+  ngAfterViewInit() {
+    this.pdfService.setContainer(this.pdfContainer.nativeElement);
   }
 
-  async renderPage(pageNumber: number) {
-    const page = await this.pdfDocument.getPage(pageNumber);
-    const container = this.pdfContainer.nativeElement;
-    container.innerHTML = '';
-
-    const viewport = page.getViewport({ scale: this.scale() });
-    const pageWrapper = document.createElement('div');
-    pageWrapper.className = 'pageWrapper';
-    pageWrapper.style.width = `${viewport.width}px`;
-    pageWrapper.style.height = `${viewport.height}px`;
-    container.appendChild(pageWrapper);
-
-    const textContent = await page.getTextContent();
-    const hasSubstantialText = textContent?.items?.length > 20;
-    this.isTextBasedPdf.set(hasSubstantialText);
-
-    if (this.showText() && hasSubstantialText) {
-      const textLayerDiv = document.createElement('div');
-      textLayerDiv.className = 'textLayer text-based';
-      textLayerDiv.style.width = `${viewport.width}px`;
-      textLayerDiv.style.height = `${viewport.height}px`;
-      pageWrapper.appendChild(textLayerDiv);
-
-      const textLayer = new pdfjsLib.TextLayer({
-        textContentSource: textContent,
-        container: textLayerDiv,
-        viewport: viewport,
-      });
-
-      await textLayer.render();
-    } else {
-      const canvas = document.createElement('canvas');
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      canvas.className = 'pdf-canvas';
-      pageWrapper.appendChild(canvas);
-
-      const context = canvas.getContext('2d')!;
-      const renderContext = { canvasContext: context, viewport };
-      await page.render(renderContext).promise;
-    }
+  async loadPdfFromBuffer(buffer: ArrayBuffer) {
+    await this.pdfService.loadPdfFromBuffer(buffer);
   }
 
   nextPage() {
-    if (this.currentPageNumber() < this.totalPages()) {
-      this.currentPageNumber.update((n) => n + 1);
-      this.renderPage(this.currentPageNumber());
-    }
+    this.pdfService.nextPage();
   }
 
   previousPage() {
-    if (this.currentPageNumber() > 1) {
-      this.currentPageNumber.update((n) => n - 1);
-      this.renderPage(this.currentPageNumber());
-    }
+    this.pdfService.previousPage();
   }
 
   zoomIn() {
-    if (this.scale() < 3) {
-      this.scale.update((s) => s + 0.1);
-      this.renderPage(this.currentPageNumber());
-    }
+    this.pdfService.zoomIn();
   }
 
   zoomOut() {
-    if (this.scale() > 0.5) {
-      this.scale.update((s) => s - 0.1);
-      this.renderPage(this.currentPageNumber());
-    }
+    this.pdfService.zoomOut();
   }
 
   toggleTextView() {
-    this.showText.update((prev) => !prev);
-    this.renderPage(this.currentPageNumber());
+    this.pdfService.toggleTextView();
   }
 }
-

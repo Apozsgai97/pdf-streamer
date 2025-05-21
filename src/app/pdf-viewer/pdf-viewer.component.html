@@ -39,25 +39,13 @@
       +
     </button>
   </div>
-
-  <span class="separator"></span>
-  
-  <div class="control-group view-mode">
-    <span
-      class="mode-indicator"
-      [class.text-mode]="isTextBasedPdf()"
-      [class.image-mode]="!isTextBasedPdf()"
-    >
-      {{ isTextBasedPdf() ? "Text View" : "Image View" }}
-    </span>
-  </div>
   <span class="separator"></span>
   <button
   (click)="toggleTextView()"
   [disabled]="!isTextBasedPdf()"
   mat-flat-button
 >
-  Abstracted Text
+  {{showText() ? "PDF view" : "Text view"}}
 </button>
 </section>
 }
