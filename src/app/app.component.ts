@@ -6,7 +6,7 @@ import { PdfControlsComponent } from "./pdf-controls/pdf-controls.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, PdfInputComponent, PdfViewerComponent, PdfControlsComponent],
+  imports: [PdfInputComponent, PdfViewerComponent, PdfControlsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
