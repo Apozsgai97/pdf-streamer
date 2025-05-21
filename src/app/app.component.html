@@ -1,6 +1,8 @@
-<div class="container">
+<section class="header">
   <h1>PDF Reader</h1>
-  <app-pdf-input (fileSelected)="onPdfSelected($event)"/>
   <app-pdf-controls/>
+  <app-pdf-input (fileSelected)="onPdfSelected($event)"/>
+</section>
+<section class="container">
   <app-pdf-viewer #viewer/>
-</div>
+</section>

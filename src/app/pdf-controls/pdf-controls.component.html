@@ -1,6 +1,7 @@
 <section class="controls">
   
   <div class="control-group">
+   <span class="separator"></span>
      <button
        (click)="previousPage()"
        [disabled]="currentPageNumber() <= 1"
@@ -46,4 +47,5 @@
  >
    {{showText() ? "PDF view" : "Text view"}}
  </button>
+ <span class="separator"></span>
  </section>

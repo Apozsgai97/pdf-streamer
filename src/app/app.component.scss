@@ -1,3 +1,13 @@
+.header{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  background-color: rgb(242, 242, 242);
+
+}
+
 .container{
   display: flex;
   align-items: center;
@@ -7,5 +17,5 @@
 } 
 
 h1{
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
