@@ -1,24 +1,18 @@
-.file-label {
+.file-input-container {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
+  justify-content: center;
+  margin: 1rem 0;
 
-  .file-label__button {
-    color: rgb(57, 57, 57);
-    padding: 0.5rem 0.75rem;
-    border: 1px solid darkgray;
-    border-radius: 0.5rem;
-    box-shadow: 0 0 0.5rem rgba(57, 57, 57, 0.2);
-    font-weight: 500;
-    cursor: pointer;
+  button {
+    position: relative;
+    z-index: 1;
   }
+}
 
-  .file-label__button:hover {
-    background-color: rgb(244, 244, 244);
-  }
-
-  .file-input {
-    display: none;
-  }
+.file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
 }

@@ -1,5 +1,4 @@
-<label for="pdf" class="file-label">
-  <span class="file-label__button" >Choose PDF</span>
+<div class="file-input-container">
   <input
     type="file"
     id="pdf"
@@ -7,4 +6,8 @@
     (change)="onFileSelected($event)"
     class="file-input"
   />
-</label>
+  <button mat-fab extended (click)="triggerFileInput()">
+    <mat-icon>upload</mat-icon>
+    Upload PDF
+  </button>
+</div>
