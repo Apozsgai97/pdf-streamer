@@ -17,6 +17,8 @@
   .pageWrapper {
     margin: 0 auto;
     position: relative;
+    display: flex;
+    justify-content: center;
   }
 
   canvas {
@@ -27,9 +29,23 @@
 
   .textLayer {
     position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
     opacity: 0.2;
     line-height: 1;
+    text-align: initial;
+    pointer-events: none;
+
+    > span {
+      color: transparent;
+      position: absolute;
+      white-space: pre;
+      cursor: text;
+      transform-origin: 0% 0%;
+    }
   }
 }
 
